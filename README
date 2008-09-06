@@ -1,0 +1,17 @@
+
+# Vik Singh (viksi@yahoo-inc.com)
+
+You should have Google App Engine (GAE) already installed and configured
+Save the qa.zip file in your gae directory (or wherever)
+Unzip it, cd into the qa directory
+
+In the config file supply your BOSS appid
+In the app.yaml file change the application name to your Google App Engine name
+
+Then you're done
+
+Should be able to cd out one level and run
+
+appcfg.py update qa/
+
+to upload the project to GAE
