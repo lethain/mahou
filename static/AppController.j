@@ -1,10 +1,11 @@
 
 import <Foundation/CPObject.j>
+import "WLTextField.j"
 
 
 @implementation AppController : CPObject
 {
-  CPTextField searchField;
+  WLTextField searchField;
   CPButton button;
 }
 
@@ -15,9 +16,11 @@ import <Foundation/CPObject.j>
     [contentView setBackgroundColor: [CPColor grayColor]];
     
     var searchFieldFrame = CGRectMake(CGRectGetWidth([contentView bounds])/2.0+40,10,400,34);
-    searchField = [[CPTextField alloc] initWithFrame:searchFieldFrame];
+    searchField = [[WLTextField alloc] initWithFrame:searchFieldFrame];
     //[searchField setAlignment:CPCenterTextAlignment];
-    [searchField setStringValue:@"Type your search here"];
+    //[searchField setStringValue:@"type your search here"];
+    [searchField setPlaceholderString:@"type your search here"];
+    [searchField setStringValue:[searchField placeholderString]];
     [searchField setFont:[CPFont boldSystemFontOfSize:24.0]];
     [searchField setEditable:YES];
     [searchField setSelectable:YES];
