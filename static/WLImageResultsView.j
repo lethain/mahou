@@ -100,8 +100,14 @@ import "WLImageDisplayView.j"
 
 -(void)setSelected:(BOOL)flag {
   if (!flag) return;
-  var cv = [self collectionView];
-  var window = [[CPPanel alloc] initWithContentRect:CGRectMake(100,100,300,300) styleMask:CPHUDBackgroundWindowMask|CPClosableWindowMask];
+  
+  //var view = [[imageView superview] superview];
+  //var bounds = [view bounds];
+  var mainWindow = [[CPApplication sharedApplication] mainWindow];
+  var point = [imageView convertRect:[imageView bounds] toView:[mainWindow contentView]];
+
+
+  var window = [[CPPanel alloc] initWithContentRect:CGRectMake(CGRectGetMinX(point),CGRectGetMinY(point),300,300) styleMask:CPHUDBackgroundWindowMask|CPClosableWindowMask];
   var contentView = [window contentView];
 
   var aView = [[WLImageDisplayView alloc] initWithFrame:CGRectMake(0,0,300,300) data:dict image:image];
