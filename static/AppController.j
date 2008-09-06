@@ -47,7 +47,7 @@ import "WLURLLabel.j"
     [button setBordered:NO];
     [button setTitle:"search"];
     [button setTarget:self];
-    [button setAction:@selector(swap:)]; 
+    [button setAction:@selector(search:)]; 
     [contentView addSubview:button];
 
     [self setupPhotosCollectionView:contentView];
@@ -59,6 +59,36 @@ import "WLURLLabel.j"
     // Uncomment the following line to turn on the standard menu bar.
     //[CPMenu setMenuBarVisible:YES];
 }
+
+- (void)search:(id)sender {
+  [self searchYahooImagesFor:[searchField stringValue]];
+}
+
+-(void)searchYahooImagesFor: (CPString)aString {
+  var query = "/search/images/?query="+encodeURIComponent(aString);
+  var request = [CPURLRequest requestWithURL:query];
+  var connection = [CPURLConnection connectionWithRequest:request delegate:self];
+  [connection start];
+}
+
+-(void)connection:(CPURLConnection)aConnection didReceiveData:(CPString)data {
+  alert("recieved: " + data);
+}
+
+- (void)connection:(CPURLConnection)aConnection didFailWithError:(CPString)error
+{
+    alert("error: " + error);
+}
+
+-(void)connectionDidFinishLoading:(CPURLConnection)connection {
+  alert("Finished loading");
+}
+
+/*
+-(void)connection:(CPURLConnection)connection didReceiveResponse:(CPHTTPURLResponse)response {
+  alert("response: " + response);
+}
+*/
 
 -(void)setupAttributionLabel: (CPView)contentView {
   var bounds = [contentView bounds];
@@ -101,13 +131,6 @@ import "WLURLLabel.j"
     [[scrollView contentView] setBackgroundColor:[CPColor colorWithCalibratedWhite:0.25 alpha:1.0]];
 
   [contentView addSubview:scrollView];
-}
-
-
-
-- (void)swap:(id)sender
-{
-
 }
 
 @end
