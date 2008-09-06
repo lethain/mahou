@@ -4,7 +4,13 @@ runtime: python
 api_version: 1
 
 handlers:
-- url: .*
-  script: main.py
-- url: /qa
+
+- url: /
+  static_files: static/index.html
+  upload: static/index.html
+
+- url: /
+  static_dir: static
+ 
+- url: /.*
   script: main.py
