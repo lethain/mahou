@@ -1,5 +1,6 @@
 import <Foundation/CPObject.j>
 import "AppController.j"
+import "WLImageDisplayView.j"
 
 @implementation WLImageResultsView : CPScrollView {
   CPCollectionView collectionView;
@@ -98,7 +99,14 @@ import "AppController.j"
 }
 
 -(void)setSelected:(BOOL)flag {
-  alert("selected!");
+  if (!flag) return;
+  var cv = [self collectionView];
+  var window = [[CPPanel alloc] initWithContentRect:CGRectMake(100,100,300,500) styleMask:CPHUDBackgroundWindowMask|CPClosableWindowMask];
+  var contentView = [window contentView];
+
+  var aView = [[WLImageDisplayView alloc] initWithFrame:CGRectMake(20,20,150,150) data:dict image:image];
+  [[window contentView] addSubview:aView];
+  [window orderFront:self];
 }
 
 @end
