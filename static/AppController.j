@@ -1,7 +1,7 @@
 
 import <Foundation/CPObject.j>
 import "WLTextField.j"
-
+import "WLURLLabel.j"
 
 @implementation AppController : CPObject
 {
@@ -12,6 +12,7 @@ import "WLTextField.j"
 
 - (void)applicationDidFinishLaunching:(CPNotification)aNotification
 {
+
     var theWindow = [[CPWindow alloc] initWithContentRect:CGRectMakeZero() styleMask:CPBorderlessBridgeWindowMask],
       contentView = [theWindow contentView];
     [contentView setBackgroundColor: [CPColor grayColor]];
@@ -50,11 +51,26 @@ import "WLTextField.j"
     [contentView addSubview:button];
 
     [self setupPhotosCollectionView:contentView];
+    [self setupAttributionLabel:contentView];
+    
     
     [theWindow orderFront:self];
     
     // Uncomment the following line to turn on the standard menu bar.
     //[CPMenu setMenuBarVisible:YES];
+}
+
+-(void)setupAttributionLabel: (CPView)contentView {
+  var bounds = [contentView bounds];
+  var fieldFrame = CGRectMake(CGRectGetWidth(bounds)/2.0,CGRectGetMaxY(bounds)-100,200,30);
+  var field = [[WLURLLabel alloc] initWithFrame:fieldFrame];
+
+  [field setStringValue:@"Mahou by Will Larson"];
+  [field setUrl:@"http://lethain.com/"];
+  [field setFont:[CPFont boldSystemFontOfSize:12.0]];
+  [field setAutoresizingMask:CPViewMinXMargin | CPViewMaxXMargin | CPViewMinYMargin];
+  [field setTextColor:[CPColor whiteColor]];
+  [contentView addSubview:field];
 }
 
 -(void)setupPhotosCollectionView: (CPView)contentView {
@@ -65,7 +81,7 @@ import "WLTextField.j"
   var scrollViewFrame = CGRectMake(CGRectGetMinX(bounds)+75,
 				   CGRectGetMinY(bounds)+100,
 				   CGRectGetWidth(bounds)-150,
-				   350);
+				   CGRectGetHeight(bounds)-200);
 
   var scrollView = [[CPScrollView alloc] initWithFrame:scrollViewFrame];  
   photosCollectionView = [[CPCollectionView alloc] initWithFrame:CGRectMakeZero()];
@@ -81,7 +97,7 @@ import "WLTextField.j"
   [scrollView setDocumentView: photosCollectionView];
   [scrollView setAutohidesScrollers: YES];
 
-  [[scrollView contentView] setBackgroundColor:[CPColor blackColor]];
+    [[scrollView contentView] setBackgroundColor:[CPColor colorWithCalibratedWhite:0.25 alpha:1.0]];
 
   [contentView addSubview:scrollView];
 }
