@@ -22,16 +22,27 @@ import "WLURLLabel.j"
   [self addSubview:[self makeTitleLabel]];
   [self addSubview:imageView];
   [self addSubview:[self makeDimensionsLabel]];
+  [self addSubview:[self makeAbstractLabel]];
   return self;
 }
 
 -(CPTextField)makeAbstractLabel {
-  var fieldFrame = CGRectMake(0,190,300,100);
+  var fieldFrame = CGRectMake(0,190,285,70);
+  var scrollView = [[CPScrollView alloc] initWithFrame:fieldFrame];
+  //[scrollView setAutohidesScrollers:YES];
+  [scrollView setHasHorizontalScroller:NO];
+
+  fieldFrame = CGRectMake(0,0,280,150);
+  
   var field = [[CPTextField alloc] initWithFrame:fieldFrame];
-  alert(dict.abstract);
-  [field setStringValue:dict.abstract];
+  [field setLineBreakMode:CPLineBreakByWordWrapping];
+  [field setStringValue:data.abstract];
   [field setTextColor:[CPColor grayColor]];
-  return field;
+  //[field sizeToFit];
+
+  [scrollView setDocumentView:field];
+
+  return scrollView;
 }
 
 -(WLURLLabel)makeTitleLabel {
