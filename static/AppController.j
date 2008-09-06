@@ -16,7 +16,7 @@ import "WLTextField.j"
       contentView = [theWindow contentView];
     [contentView setBackgroundColor: [CPColor grayColor]];
     
-    var searchFieldFrame = CGRectMake(CGRectGetWidth([contentView bounds])/2.0+40,10,400,34);
+    var searchFieldFrame = CGRectMake(CGRectGetWidth([contentView bounds])/2.0+20,10,400,34);
     searchField = [[WLTextField alloc] initWithFrame:searchFieldFrame];
     [searchField setPlaceholderString:@"type your search here"];
     [searchField setStringValue:[searchField placeholderString]];
@@ -62,13 +62,6 @@ import "WLTextField.j"
 
   var photoItem = [[CPCollectionViewItem alloc] init];
   [photoItem setView:[[CPImageView alloc] initWithFrame:CGRectMake(0,0,150,150)]];
-  
-
-  //[searchField setFrameOrigin:CGPointMake((CGRectGetWidth([contentView bounds]) - CGRectGetWidth([searchField frame])) / 2.5, (CGRectGetMinY([contentView bounds]) + CGRectGetHeight([searchField frame])))];
-
-  //var searchFieldFrame = CGRectMake(CGRectGetWidth([contentView bounds])/2.0+40,10,400,34);
-
-
   var scrollViewFrame = CGRectMake(CGRectGetMinX(bounds)+75,
 				   CGRectGetMinY(bounds)+100,
 				   CGRectGetWidth(bounds)-150,
