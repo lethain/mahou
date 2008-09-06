@@ -1,8 +1,10 @@
 import <Foundation/CPObject.j>
+import "AppController.j"
 
 @implementation WLImageResultsView : CPScrollView {
   CPCollectionView collectionView;
   CPArray images;
+  AppController appController;
 }
 
 -(id)initWithFrame:aFrame {
@@ -20,13 +22,45 @@ import <Foundation/CPObject.j>
   return self;
 }
 
+-(void)setAppController: (AppController)appCont {
+  appController = appCont;
+}
+-(AppController)appController {
+  return appController;
+}
+
+-(void)scrollWheel:(CPEvent)anEvent {
+  [self considerNotifying];
+  [super scrollWheel:anEvent];
+}
+
+-(void)considerNotifying {
+  var scroller = [self verticalScroller];
+  var position = [scroller floatValue];
+  if (position > .8) {
+    [[self appController] retrieveAdditional];
+  }
+}
+
+-(void)clearResults {
+  images = [[CPArray alloc] init];
+}
+
 -(void)setImages: (CPArray)anArray {
-  images = eval(anArray);
+  var newResults = eval(anArray);
+  alert(newResults);
+  [images addObjectsFromArray:newResults];
+  [collectionView setContent:[]];
   [collectionView setContent:images];
 }
 -(CPArray)images {
   return images;
 }
+
+-(void)mouseDown(CPEvent)anEvent {
+  alert("mouse down!");
+}
+
 @end
 
 @implementation PhotoCell : CPCollectionViewItem {

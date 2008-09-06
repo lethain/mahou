@@ -9,6 +9,9 @@ import "WLImageResultsView.j"
   WLTextField searchField;
   CPButton button;
   WLImageResultsView imageResultsView;
+  CPArray results;
+  int offset;
+  CPString search;
 }
 
 - (void)applicationDidFinishLaunching:(CPNotification)aNotification
@@ -62,15 +65,25 @@ import "WLImageResultsView.j"
 }
 
 - (void)search:(id)sender {
-  [self searchYahooImagesFor:[searchField stringValue]];
+  offset = 0;
+  search = [searchField stringValue];
+  [imageResultsView clearResults];
+  [self searchYahooImagesFor:search withOffset:offset];
 }
 
--(void)searchYahooImagesFor: (CPString)aString {
+-(void)retrieveAdditional {
+  offset += 20;
+  [self searchYahooImagesFor:search withOffset:offset];
+}
+
+-(void)searchYahooImagesFor: (CPString)aString withOffset: (int)aNumber {
   var query = "/search/images?query="+encodeURIComponent(aString);
   var request = [CPURLRequest requestWithURL:query];
   var connection = [CPURLConnection connectionWithRequest:request delegate:self];
   [connection start];
 }
+
+
 
 -(void)connection:(CPURLConnection)aConnection didReceiveData:(CPString)data {
   [imageResultsView setImages:data];
@@ -111,6 +124,7 @@ import "WLImageResultsView.j"
 				   CGRectGetHeight(bounds)-200);
   imageResultsView = [[WLImageResultsView alloc] initWithFrame:scrollViewFrame];    
   [imageResultsView setAutoresizingMask: CPViewHeightSizable | CPViewWidthSizable];
+  [imageResultsView setAppController:self];
   [contentView addSubview:imageResultsView];
 }
 
