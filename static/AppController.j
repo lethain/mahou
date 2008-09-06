@@ -77,7 +77,7 @@ import "WLImageResultsView.j"
 }
 
 -(void)searchYahooImagesFor: (CPString)aString withOffset: (int)aNumber {
-  var query = "/search/images?query="+encodeURIComponent(aString);
+  var query = "/search/images?query="+encodeURIComponent(aString)+"&offset="+encodeURIComponent(aNumber);
   var request = [CPURLRequest requestWithURL:query];
   var connection = [CPURLConnection connectionWithRequest:request delegate:self];
   [connection start];

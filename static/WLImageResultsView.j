@@ -5,6 +5,7 @@ import "AppController.j"
   CPCollectionView collectionView;
   CPArray images;
   AppController appController;
+  BOOL recievedAdditional;
 }
 
 -(id)initWithFrame:aFrame {
@@ -37,8 +38,10 @@ import "AppController.j"
 -(void)considerNotifying {
   var scroller = [self verticalScroller];
   var position = [scroller floatValue];
-  if (position > .8) {
+  if (position > .8 && recievedAdditional) {
     [[self appController] retrieveAdditional];
+    recievedAdditional = NO;
+    
   }
 }
 
@@ -47,8 +50,8 @@ import "AppController.j"
 }
 
 -(void)setImages: (CPArray)anArray {
+  var recievedAdditional = YES;
   var newResults = eval(anArray);
-  alert(newResults);
   [images addObjectsFromArray:newResults];
   [collectionView setContent:[]];
   [collectionView setContent:images];

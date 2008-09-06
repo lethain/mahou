@@ -31,7 +31,8 @@ import simplejson
 class ImageSearchHandler(webapp.RequestHandler):
   def get(self):
     query = console.strfix(self.request.get("query"))
-    data = ysearch.search(query,vertical="images",count=20)
+    offset = int(console.strfix(self.request.get("offset")))
+    data = ysearch.search(query,vertical="images",count=20,start=offset);
     images = db.create(data=data)
     serialized = simplejson.dumps(images.rows)
     self.response.out.write(serialized)
