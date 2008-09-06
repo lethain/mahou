@@ -4,30 +4,46 @@ import <Foundation/CPObject.j>
 
 @implementation AppController : CPObject
 {
+  CPTextField searchField;
+  CPButton button;
 }
 
 - (void)applicationDidFinishLaunching:(CPNotification)aNotification
 {
     var theWindow = [[CPWindow alloc] initWithContentRect:CGRectMakeZero() styleMask:CPBorderlessBridgeWindowMask],
-        contentView = [theWindow contentView];
+      contentView = [theWindow contentView];
+    [contentView setBackgroundColor: [CPColor grayColor]];
     
-    var label = [[CPTextField alloc] initWithFrame:CGRectMakeZero()];
+    var searchFieldFrame = CGRectMake(CGRectGetWidth([contentView bounds])/2.0+40,10,400,34);
+    searchField = [[CPTextField alloc] initWithFrame:searchFieldFrame];
+    //[searchField setAlignment:CPCenterTextAlignment];
+    [searchField setStringValue:@"Type your search here"];
+    [searchField setFont:[CPFont boldSystemFontOfSize:24.0]];
+    [searchField setEditable:YES];
+    [searchField setSelectable:YES];
+    [searchField setBordered:YES];
+    [searchField setBezeled:YES];
+    [searchField setBezelStyle:CPTextFieldRoundedBezel];
+    [searchField setBackgroundColor: [CPColor whiteColor]];
+    //[searchField sizeToFit];
     
-    [label setStringValue:@"Hello World!"];
-    [label setFont:[CPFont boldSystemFontOfSize:24.0]];
-    
-    [label sizeToFit];
-    
-    [label setAutoresizingMask:CPViewMinXMargin | CPViewMaxXMargin | CPViewMinYMargin | CPViewMaxYMargin];
-    [label setFrameOrigin:CGPointMake((CGRectGetWidth([contentView bounds]) - CGRectGetWidth([label frame])) / 2.0, (CGRectGetHeight([contentView bounds]) - CGRectGetHeight([label frame])) / 2.0)];
-    
-    [contentView addSubview:label];
+    [searchField setAutoresizingMask:CPViewMinXMargin | CPViewMaxXMargin | CPViewMinYMargin | CPViewMaxYMargin];
+    [searchField setFrameOrigin:CGPointMake((CGRectGetWidth([contentView bounds]) - CGRectGetWidth([searchField frame])) / 2.5, (CGRectGetMinY([contentView bounds]) + CGRectGetHeight([searchField frame])))];
 
-    var buttonFrame = CGRectMake(CGRectGetWidth([contentView bounds])/2.0 - 40,
-				 CGRectGetMaxY([label frame]) + 10,
-				 80,18);
-    var button = [[CPButton alloc] initWithFrame:buttonFrame];
+
+    [contentView addSubview:searchField];
+
+    var image = [[CPImage alloc] initWithContentsOfFile:"Resources/searchIcon.png" size:CPSizeMake(64,64)], altImage = [[CPImage alloc] initWithContentsOfFile:"Resources/altSearchIcon.png" size:CPSizeMake(64,64)];
+
+    var buttonFrame = CGRectMake(CGRectGetMaxX([searchField frame])+8,
+				 CGRectGetMinY([searchField frame])-16,
+				 64,64);
+    button = [[CPButton alloc] initWithFrame:buttonFrame];
+    [button setImage:image];
+    [button setAlternateImage:altImage];
+    [button setImagePosition:CPImageOnly];
     [button setAutoresizingMask:CPViewMinXMargin|CPViewMaxXMargin|CPViewMinYMargin|CPViewMaxYMargin];
+    [button setBordered:NO];
     [button setTitle:"search"];
     [button setTarget:self];
     [button setAction:@selector(swap:)];
@@ -38,6 +54,11 @@ import <Foundation/CPObject.j>
     
     // Uncomment the following line to turn on the standard menu bar.
     //[CPMenu setMenuBarVisible:YES];
+}
+
+- (void)swap:(id)sender
+{
+
 }
 
 @end
