@@ -62,7 +62,7 @@ import "WLURLLabel.j"
 
 -(void)setupAttributionLabel: (CPView)contentView {
   var bounds = [contentView bounds];
-  var fieldFrame = CGRectMake(CGRectGetWidth(bounds)/2.0,CGRectGetMaxY(bounds)-100,200,30);
+  var fieldFrame = CGRectMake(CGRectGetWidth(bounds)/2.0-60,CGRectGetMaxY(bounds)-100,200,30);
   var field = [[WLURLLabel alloc] initWithFrame:fieldFrame];
 
   [field setStringValue:@"Mahou by Will Larson"];
@@ -70,6 +70,7 @@ import "WLURLLabel.j"
   [field setFont:[CPFont boldSystemFontOfSize:12.0]];
   [field setAutoresizingMask:CPViewMinXMargin | CPViewMaxXMargin | CPViewMinYMargin];
   [field setTextColor:[CPColor whiteColor]];
+  [field sizeToFit];
   [contentView addSubview:field];
 }
 
