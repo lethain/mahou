@@ -2,12 +2,13 @@
 import <Foundation/CPObject.j>
 import "WLTextField.j"
 import "WLURLLabel.j"
+import "WLImageResultsView.j"
 
 @implementation AppController : CPObject
 {
   WLTextField searchField;
   CPButton button;
-  CPCollectionView photosCollectionView;
+  WLImageResultsView imageResultsView;
 }
 
 - (void)applicationDidFinishLaunching:(CPNotification)aNotification
@@ -65,14 +66,14 @@ import "WLURLLabel.j"
 }
 
 -(void)searchYahooImagesFor: (CPString)aString {
-  var query = "/search/images/?query="+encodeURIComponent(aString);
+  var query = "/search/images?query="+encodeURIComponent(aString);
   var request = [CPURLRequest requestWithURL:query];
   var connection = [CPURLConnection connectionWithRequest:request delegate:self];
   [connection start];
 }
 
 -(void)connection:(CPURLConnection)aConnection didReceiveData:(CPString)data {
-  alert("recieved: " + data);
+  [imageResultsView setImages:data];
 }
 
 - (void)connection:(CPURLConnection)aConnection didFailWithError:(CPString)error
@@ -80,9 +81,7 @@ import "WLURLLabel.j"
     alert("error: " + error);
 }
 
--(void)connectionDidFinishLoading:(CPURLConnection)connection {
-  alert("Finished loading");
-}
+-(void)connectionDidFinishLoading:(CPURLConnection)connection {}
 
 /*
 -(void)connection:(CPURLConnection)connection didReceiveResponse:(CPHTTPURLResponse)response {
@@ -106,31 +105,13 @@ import "WLURLLabel.j"
 
 -(void)setupPhotosCollectionView: (CPView)contentView {
   var bounds = [contentView bounds];
-
-  var photoItem = [[CPCollectionViewItem alloc] init];
-  [photoItem setView:[[CPImageView alloc] initWithFrame:CGRectMake(0,0,150,150)]];
   var scrollViewFrame = CGRectMake(CGRectGetMinX(bounds)+75,
 				   CGRectGetMinY(bounds)+100,
 				   CGRectGetWidth(bounds)-150,
 				   CGRectGetHeight(bounds)-200);
-
-  var scrollView = [[CPScrollView alloc] initWithFrame:scrollViewFrame];  
-  photosCollectionView = [[CPCollectionView alloc] initWithFrame:CGRectMakeZero()];
-  [photosCollectionView setDelegate:self];
-  [photosCollectionView setItemPrototype:photoItem];
-
-  [photosCollectionView setMinItemSize:CGSizeMake(150, 150)];
-  [photosCollectionView setMaxItemSize:CGSizeMake(150, 150)];
-  [photosCollectionView setAutoresizingMask: CPViewWidthSizable];
-    
-  [scrollView setAutoresizingMask: CPViewHeightSizable | CPViewWidthSizable];
-  //[searchField setAutoresizingMask:CPViewMinXMargin | CPViewMaxXMargin | CPViewMinYMargin | CPViewMaxYMargin];
-  [scrollView setDocumentView: photosCollectionView];
-  [scrollView setAutohidesScrollers: YES];
-
-    [[scrollView contentView] setBackgroundColor:[CPColor colorWithCalibratedWhite:0.25 alpha:1.0]];
-
-  [contentView addSubview:scrollView];
+  imageResultsView = [[WLImageResultsView alloc] initWithFrame:scrollViewFrame];    
+  [imageResultsView setAutoresizingMask: CPViewHeightSizable | CPViewWidthSizable];
+  [contentView addSubview:imageResultsView];
 }
 
 @end

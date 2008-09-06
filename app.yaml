@@ -5,6 +5,9 @@ api_version: 1
 
 handlers:
 
+- url: /search/.*
+  script: main.py
+
 - url: /
   static_files: static/index.html
   upload: static/index.html
@@ -12,5 +15,4 @@ handlers:
 - url: /
   static_dir: static
  
-- url: /.*
-  script: main.py
+
