@@ -107,7 +107,7 @@ import "WLImageResultsView.j"
   var fieldFrame = CGRectMake(CGRectGetWidth(bounds)/2.0-60,CGRectGetMaxY(bounds)-100,200,30);
   var field = [[WLURLLabel alloc] initWithFrame:fieldFrame];
 
-  [field setStringValue:@"Mahou by Will Larson"];
+  [field setStringValue:@"Mahou by Will Larson (http://lethain.com/)"];
   [field setUrl:@"http://lethain.com/"];
   [field setFont:[CPFont boldSystemFontOfSize:12.0]];
   [field setAutoresizingMask:CPViewMinXMargin | CPViewMaxXMargin | CPViewMinYMargin];

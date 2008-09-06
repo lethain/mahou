@@ -101,10 +101,10 @@ import "WLImageDisplayView.j"
 -(void)setSelected:(BOOL)flag {
   if (!flag) return;
   var cv = [self collectionView];
-  var window = [[CPPanel alloc] initWithContentRect:CGRectMake(100,100,300,500) styleMask:CPHUDBackgroundWindowMask|CPClosableWindowMask];
+  var window = [[CPPanel alloc] initWithContentRect:CGRectMake(100,100,300,300) styleMask:CPHUDBackgroundWindowMask|CPClosableWindowMask];
   var contentView = [window contentView];
 
-  var aView = [[WLImageDisplayView alloc] initWithFrame:CGRectMake(20,20,150,150) data:dict image:image];
+  var aView = [[WLImageDisplayView alloc] initWithFrame:CGRectMake(0,0,300,300) data:dict image:image];
   [[window contentView] addSubview:aView];
   [window orderFront:self];
 }
