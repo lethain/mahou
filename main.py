@@ -26,7 +26,7 @@ from yos.util import console
 from yos.boss import ysearch
 from yos.yql import db
 
-import simplejson
+from django.utils import simplejson
 
 class ImageSearchHandler(webapp.RequestHandler):
   def get(self):
