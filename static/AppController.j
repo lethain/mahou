@@ -91,7 +91,7 @@ import "WLImageResultsView.j"
 
 - (void)connection:(CPURLConnection)aConnection didFailWithError:(CPString)error
 {
-    alert("error: " + error);
+    //alert("error: " + error);
 }
 
 -(void)connectionDidFinishLoading:(CPURLConnection)connection {}
