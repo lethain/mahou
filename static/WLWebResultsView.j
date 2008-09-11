@@ -1,6 +1,7 @@
 import <Foundation/CPObject.j>
 import "WLResultsView.j"
 import "WLURLLabel.j"
+import "WLHTMLTextField.j"
 
 @implementation WLWebResultsView : WLResultsView {  
 }
@@ -71,7 +72,7 @@ import "WLURLLabel.j"
 }
 
 -(CPTextField)makeLabelWith: (CPString)aString at: (CPRect)aFrame {
-  var field = [[CPTextField alloc] initWithFrame:aFrame];
+  var field = [[WLHTMLTextField alloc] initWithFrame:aFrame];
   [field setFont:[CPFont boldSystemFontOfSize:12.0]];
   [field setStringValue:aString];
   [field setAutoresizingMask: CPViewWidthSizable];
