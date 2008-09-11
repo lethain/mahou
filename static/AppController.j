@@ -1,6 +1,7 @@
 
 import <Foundation/CPObject.j>
 import "WLTextField.j"
+import "WLResultsView.j"
 
 @implementation AppController : CPObject
 {
@@ -10,6 +11,9 @@ import "WLTextField.j"
   CPTabViewItem webSearchTabItem;
   CPTabViewItem imageSearchTabItem;
   CPTabViewItem newsSearchTabItem;
+  CPView webView;
+  CPView imageView;
+  CPView newsView;
 }
 
 - (void)applicationDidFinishLaunching:(CPNotification)aNotification
@@ -89,7 +93,32 @@ import "WLTextField.j"
 			 CGRectGetWidth(bounds)-150,
 			 CGRectGetHeight(bounds)-200);
   tabView = [[CPTabView alloc] initWithFrame:frame];
+  [tabView setTabViewType:CPTopTabsBezelBorder];
+  //[tabView layoutSubviews];
   [tabView setAutoresizingMask: CPViewHeightSizable | CPViewWidthSizable];
+
+  webSearchTabItem = [[CPTabViewItem alloc] initWithIdentifier:@"web"];
+  imageSearchTabItem = [[CPTabViewItem alloc] initWithIdentifier:@"image"];
+  newsSearchTabItem = [[CPTabViewItem alloc] initWithIdentifier:@"news"];
+
+  webView = [[WLResultsView alloc] initWithFrame:CPRectMakeZero()];
+  imageView = [[WLResultsView alloc] initWithFrame:CPRectMakeZero()];
+  newsView = [[WLResultsView alloc] initWithFrame:CPRectMakeZero()];
+
+  [webSearchTabItem setLabel:@"Web"];
+  [imageSearchTabItem setLabel:@"Image"];
+  [newsSearchTabItem setLabel:@"News"];
+
+  [webSearchTabItem setView:webView];
+  [imageSearchTabItem setView:imageView];
+  [newsSearchTabItem setView:newsView];
+
+  [tabView addTabViewItem:webSearchTabItem];
+  [tabView addTabViewItem:imageSearchTabItem];
+  [tabView addTabViewItem:newsSearchTabItem];
+
+
+  [tabView selectTabViewItemAtIndex:0];
   [contentView addSubview:tabView];
 }
 
