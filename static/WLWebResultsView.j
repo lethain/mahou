@@ -41,7 +41,7 @@ import "WLURLLabel.j"
     [webView setAutoresizingMask: CPViewWidthSizable];
     
     var bounds = [webView bounds];
-    var frame = CGRectMake(0,0,CPRectGetMaxX(bounds),25);
+    var frame = CGRectMake(5,0,CPRectGetMaxX(bounds)-5,25);
     var titleLabel = [self makeLabelWith:dict.title at:frame];
     [titleLabel setFont:[CPFont boldSystemFontOfSize:20.0]];
     [titleLabel setAlignment:CPLeftTextAlignment];
