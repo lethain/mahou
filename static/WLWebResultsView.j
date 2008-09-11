@@ -8,7 +8,7 @@ import "WLHTMLTextField.j"
 
 -(CPSize)_minItemSize {
   //return CGSizeMake(CGRectGetWidth([self bounds])-50,100);
-  return CGSizeMake(300,100);
+  return CGSizeMake(325,100);
 }
 
 -(CPSize)_maxItemSize {
@@ -53,7 +53,7 @@ import "WLHTMLTextField.j"
     [date setAlignment:CPRightTextAlignment];
     [webView addSubview:date];
 
-    frame = CGRectMake(0,25,CPRectGetWidth(bounds)-75,25);
+    frame = CGRectMake(5,25,CPRectGetWidth(bounds)-75,25);
     var link = [self makeURLLabelWith:dict.url andUrl:dict.clickurl at:frame];
     [link setTextColor:[CPColor blueColor]];
     [webView addSubview:link];
