@@ -5,7 +5,7 @@ import "WLScrollView.j"
   CPArray _results;
   CPString _searchString;
   CPCollectionView _collectionView;
-  int offset;
+  int _offset;
   BOOL _recieved;
 }
 
@@ -37,8 +37,13 @@ import "WLScrollView.j"
 -(void)searchFor: (CPString)searchString {
   [self _clearResults];
   _searchString = searchString;
-  offset = 0;
+  _offset = 0;
   [self _search];
+  _offset = _offset + [self _offsetIncrement];
+}
+
+-(int)_offsetIncrement {
+  return 20;
 }
 
 -(void)_clearResults {

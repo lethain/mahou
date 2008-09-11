@@ -117,8 +117,9 @@ import "WLResultsView.j"
   [tabView addTabViewItem:imageSearchTabItem];
   [tabView addTabViewItem:newsSearchTabItem];
 
+  // Select Image tab.
+  [tabView selectTabViewItemAtIndex:1];
 
-  [tabView selectTabViewItemAtIndex:0];
   [contentView addSubview:tabView];
 }
 
