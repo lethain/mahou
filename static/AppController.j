@@ -2,6 +2,7 @@
 import <Foundation/CPObject.j>
 import "WLTextField.j"
 import "WLResultsView.j"
+import "WLImageResultsView.j"
 
 @implementation AppController : CPObject
 {
@@ -18,6 +19,8 @@ import "WLResultsView.j"
 
 - (void)applicationDidFinishLaunching:(CPNotification)aNotification
 {
+  CPLogRegister(CPLogConsole);
+
   var theWindow = [[CPWindow alloc] initWithContentRect:CGRectMakeZero() styleMask:CPBorderlessBridgeWindowMask];
   var contentView = [theWindow contentView];
 
@@ -26,6 +29,19 @@ import "WLResultsView.j"
   [theWindow orderFront:self];
   [CPMenu setMenuBarVisible:YES];
 }
+
+-(void)search: (id)sender {
+  var selectedItem = [tabView selectedTabViewItem];
+  var selectedView = [selectedItem view];
+  [selectedView searchFor:[searchField stringValue]]; 
+}
+
+-(void)tabView:(CPTabView)aTabView didSelectTabViewItem: (CPTabViewItem)anItem {
+  if ([[searchField stringValue] length] > 0) {
+    [self search:self];
+  }
+}
+
 
 -(void)setupSearchFieldAndButton: (CPView)contentView {
   
@@ -94,6 +110,8 @@ import "WLResultsView.j"
 			 CGRectGetHeight(bounds)-200);
   tabView = [[CPTabView alloc] initWithFrame:frame];
   [tabView setTabViewType:CPTopTabsBezelBorder];
+
+  [contentView addSubview:tabView];
   //[tabView layoutSubviews];
   [tabView setAutoresizingMask: CPViewHeightSizable | CPViewWidthSizable];
 
@@ -101,9 +119,9 @@ import "WLResultsView.j"
   imageSearchTabItem = [[CPTabViewItem alloc] initWithIdentifier:@"image"];
   newsSearchTabItem = [[CPTabViewItem alloc] initWithIdentifier:@"news"];
 
-  webView = [[WLResultsView alloc] initWithFrame:CPRectMakeZero()];
-  imageView = [[WLResultsView alloc] initWithFrame:CPRectMakeZero()];
-  newsView = [[WLResultsView alloc] initWithFrame:CPRectMakeZero()];
+  webView = [[WLResultsView alloc] initWithFrame:frame];
+  imageView = [[WLImageResultsView alloc] initWithFrame:frame];
+  newsView = [[WLResultsView alloc] initWithFrame:frame];
 
   [webSearchTabItem setLabel:@"Web"];
   [imageSearchTabItem setLabel:@"Image"];
@@ -117,10 +135,8 @@ import "WLResultsView.j"
   [tabView addTabViewItem:imageSearchTabItem];
   [tabView addTabViewItem:newsSearchTabItem];
 
-  // Select Image tab.
-  [tabView selectTabViewItemAtIndex:1];
-
-  [contentView addSubview:tabView];
+  [tabView selectTabViewItem:imageSearchTabItem];
+  [tabView setDelegate:self];
 }
 
 @end

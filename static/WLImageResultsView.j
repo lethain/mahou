@@ -17,17 +17,29 @@ import "WLResultsView.j"
   return [[PhotoCell alloc] init];
 }
 
+-(void)_resultsUpdated {
+  [_collectionView setContent:[]];
+  [_collectionView setContent:_results];
+}
+
 -(void)_search {
-  var query = "/search/images?query="+encodeURIComponent(_searchString)+"&offset="+encodeURIComponent(_offset);
+  var query = "/search/images?query="+encodeURIComponent(_searchString)+"&offset="+_offset;
   var request = [CPURLRequest requestWithURL:query];
   var connection = [CPURLConnection connectionWithRequest:request delegate:self];
   [connection start];
 }
 
 -(void)connection:(CPURLConnection)aConnection didReceiveData:(CPString)data {
-  [imageResultsView setImages:eval(data)];
+  [self _setResults:eval(data)];
+}
+- (void)connection:(CPURLConnection)aConnection didFailWithError:(CPString)error
+{
+    //alert("error: " + error);
 }
 
+-(void)connectionDidFinishLoading:(CPURLConnection)connection {
+  // finished
+}
 
 @end
 

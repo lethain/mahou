@@ -35,6 +35,11 @@ import "WLScrollView.j"
 }
 
 -(void)searchFor: (CPString)searchString {
+  if ([_searchString caseInsensitiveCompare:searchString]==0) {
+    // Don't re-search already search results.
+    return;
+  }
+
   [self _clearResults];
   _searchString = searchString;
   _offset = 0;
