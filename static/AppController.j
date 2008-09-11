@@ -4,6 +4,7 @@ import "WLTextField.j"
 import "WLResultsView.j"
 import "WLImageResultsView.j"
 import "WLWebResultsView.j"
+import "WLNewsResultsView.j"
 
 @implementation AppController : CPObject
 {
@@ -28,7 +29,7 @@ import "WLWebResultsView.j"
   [self setupSearchFieldAndButton:contentView];
   [self setupTabView:contentView];
   [theWindow orderFront:self];
-  [CPMenu setMenuBarVisible:YES];
+  //[CPMenu setMenuBarVisible:YES];
 }
 
 -(void)search: (id)sender {
@@ -122,7 +123,7 @@ import "WLWebResultsView.j"
 
   webView = [[WLWebResultsView alloc] initWithFrame:frame];
   imageView = [[WLImageResultsView alloc] initWithFrame:frame];
-  newsView = [[WLResultsView alloc] initWithFrame:frame];
+  newsView = [[WLNewsResultsView alloc] initWithFrame:frame];
 
   [webSearchTabItem setLabel:@"Web"];
   [imageSearchTabItem setLabel:@"Image"];
