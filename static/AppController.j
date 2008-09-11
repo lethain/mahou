@@ -1,131 +1,96 @@
 
 import <Foundation/CPObject.j>
 import "WLTextField.j"
-import "WLURLLabel.j"
-import "WLImageResultsView.j"
 
 @implementation AppController : CPObject
 {
   WLTextField searchField;
-  CPButton button;
-  WLImageResultsView imageResultsView;
-  CPArray results;
-  int offset;
-  CPString search;
+  CPButton searchButton;
+  CPTabView tabView;
+  CPTabViewItem webSearchTabItem;
+  CPTabViewItem imageSearchTabItem;
+  CPTabViewItem newsSearchTabItem;
 }
 
 - (void)applicationDidFinishLaunching:(CPNotification)aNotification
 {
+  var theWindow = [[CPWindow alloc] initWithContentRect:CGRectMakeZero() styleMask:CPBorderlessBridgeWindowMask];
+  var contentView = [theWindow contentView];
 
-    var theWindow = [[CPWindow alloc] initWithContentRect:CGRectMakeZero() styleMask:CPBorderlessBridgeWindowMask],
-      contentView = [theWindow contentView];
-    [contentView setBackgroundColor: [CPColor grayColor]];
-    
-    var searchFieldFrame = CGRectMake(CGRectGetWidth([contentView bounds])/2.0+20,10,400,34);
-    searchField = [[WLTextField alloc] initWithFrame:searchFieldFrame];
-    [searchField setPlaceholderString:@"type your search here"];
-    [searchField setStringValue:[searchField placeholderString]];
-    [searchField setFont:[CPFont boldSystemFontOfSize:24.0]];
-    [searchField setEditable:YES];
-    [searchField setSelectable:YES];
-    [searchField setBordered:YES];
-    [searchField setBezeled:YES];
-    [searchField setBezelStyle:CPTextFieldRoundedBezel];
-    [searchField setBackgroundColor: [CPColor whiteColor]];
-    [searchField setAutoresizingMask:CPViewMinXMargin|CPViewMaxXMargin];
-    [searchField setFrameOrigin:CGPointMake((CGRectGetWidth([contentView bounds]) - CGRectGetWidth([searchField frame])) / 2.5, (CGRectGetMinY([contentView bounds]) + CGRectGetHeight([searchField frame])))];
-
-
-    [contentView addSubview:searchField];
-
-    var image = [[CPImage alloc] initWithContentsOfFile:"Resources/searchIcon.png" size:CPSizeMake(64,64)], altImage = [[CPImage alloc] initWithContentsOfFile:"Resources/altSearchIcon.png" size:CPSizeMake(64,64)];
-
-    var buttonFrame = CGRectMake(CGRectGetMaxX([searchField frame])+8,
-				 CGRectGetMinY([searchField frame])-16,
-				 64,64);
-    button = [[CPButton alloc] initWithFrame:buttonFrame];
-    [button setImage:image];
-    [button setAlternateImage:altImage];
-    [button setImagePosition:CPImageOnly];
-    [button setAutoresizingMask:CPViewMinXMargin|CPViewMaxXMargin];
-    [button setBordered:NO];
-    [button setTitle:"search"];
-    [button setTarget:self];
-    [button setAction:@selector(search:)]; 
-    [contentView addSubview:button];
-
-    [self setupPhotosCollectionView:contentView];
-    [self setupAttributionLabel:contentView];
-    
-    
-    [theWindow orderFront:self];
-    
-    // Uncomment the following line to turn on the standard menu bar.
-    //[CPMenu setMenuBarVisible:YES];
+  [self setupSearchFieldAndButton:contentView];
+  [self setupTabView:contentView];
+  [theWindow orderFront:self];
+  [CPMenu setMenuBarVisible:YES];
 }
 
-- (void)search:(id)sender {
-  offset = 0;
-  search = [searchField stringValue];
-  [imageResultsView clearResults];
-  [self searchYahooImagesFor:search withOffset:offset];
-}
+-(void)setupSearchFieldAndButton: (CPView)contentView {
+  
 
--(void)retrieveAdditional {
-  offset += 20;
-  [self searchYahooImagesFor:search withOffset:offset];
-}
-
--(void)searchYahooImagesFor: (CPString)aString withOffset: (int)aNumber {
-  var query = "/search/images?query="+encodeURIComponent(aString)+"&offset="+encodeURIComponent(aNumber);
-  var request = [CPURLRequest requestWithURL:query];
-  var connection = [CPURLConnection connectionWithRequest:request delegate:self];
-  [connection start];
-}
-
-
-
--(void)connection:(CPURLConnection)aConnection didReceiveData:(CPString)data {
-  [imageResultsView setImages:data];
-}
-
-- (void)connection:(CPURLConnection)aConnection didFailWithError:(CPString)error
-{
-    //alert("error: " + error);
-}
-
--(void)connectionDidFinishLoading:(CPURLConnection)connection {}
-
-/*
--(void)connection:(CPURLConnection)connection didReceiveResponse:(CPHTTPURLResponse)response {
-  alert("response: " + response);
-}
-*/
-
--(void)setupAttributionLabel: (CPView)contentView {
   var bounds = [contentView bounds];
-  var fieldFrame = CGRectMake(CGRectGetWidth(bounds)/2.0-60,CGRectGetMaxY(bounds)-100,200,30);
-  var field = [[WLURLLabel alloc] initWithFrame:fieldFrame];
+  var searchFrame = CGRectMake(CGRectGetWidth(bounds)/6,
+			 CGRectGetMinY(bounds)+15,
+			 CGRectGetWidth(bounds)/1.5,
+			 70);
+  var view = [[CPView alloc] initWithFrame:searchFrame];
+  //[view setBackgroundColor:[CPColor shadowColor]]; //lightGray
+  [view setAutoresizingMask:CPViewMinXMargin|CPViewMaxXMargin];
 
-  [field setStringValue:@"Mahou by Will Larson (http://lethain.com/)"];
-  [field setUrl:@"http://lethain.com/"];
-  [field setFont:[CPFont boldSystemFontOfSize:12.0]];
-  [field setAutoresizingMask:CPViewMinXMargin | CPViewMaxXMargin | CPViewMinYMargin];
-  [field setTextColor:[CPColor whiteColor]];
-  [field sizeToFit];
-  [contentView addSubview:field];
+
+  bounds = [view bounds];
+  // Create the search field.
+  var frame = CGRectMake(CGRectGetMinX(bounds)+10,
+			 CGRectGetMinY(bounds)+10,
+			 CGRectGetWidth(bounds)-100,
+			 CGRectGetMaxY(bounds)-20);
+  searchField = [[WLTextField alloc] initWithFrame:frame];
+  [searchField setPlaceholderString:@"type your search here"];
+  [searchField setStringValue:[searchField placeholderString]];
+  [searchField setFont:[CPFont boldSystemFontOfSize:24.0]];
+  [searchField setEditable:YES];
+  [searchField setSelectable:YES];
+  [searchField setBordered:YES];
+  [searchField setBackgroundColor: [CPColor whiteColor]];
+  [view addSubview:searchField];
+
+
+  var borderFrame = CGRectMake(CGRectGetMinX(bounds)+9,
+			 CGRectGetMinY(bounds)+9,
+			 CGRectGetWidth(bounds)-98,
+			 CGRectGetMaxY(bounds)-18);
+  var borderView = [[CPView alloc] initWithFrame:borderFrame];
+  [borderView setBackgroundColor:[CPColor lightGrayColor]];
+  [view addSubview:borderView positioned:CPWindowBelow relativeTo:searchField];
+
+  
+  var image = [[CPImage alloc] initWithContentsOfFile:"Resources/searchIcon.png" size:CPSizeMake(64,64)], altImage = [[CPImage alloc] initWithContentsOfFile:"Resources/altSearchIcon.png" size:CPSizeMake(64,64)];
+  
+  var buttonFrame = CGRectMake(CGRectGetMaxX(bounds)-72,
+			       CGRectGetMinY(bounds)+3,
+			       64,64);
+  searchButton = [[CPButton alloc] initWithFrame:buttonFrame];
+  [searchButton setImage:image];
+  [searchButton setAlternateImage:altImage];
+  [searchButton setImagePosition:CPImageOnly];
+  [searchButton setAutoresizingMask:CPViewMinXMargin|CPViewMaxXMargin];
+  [searchButton setBordered:NO];
+  [searchButton setTitle:"search"];
+  [searchButton setTarget:self];
+  [searchButton setAction:@selector(search:)]; 
+  [view addSubview:searchButton];
+  
+  // Add everything to main content view  
+  [contentView addSubview:view];
 }
 
--(void)setupPhotosCollectionView: (CPView)contentView {
+-(void)setupTabView: (CPView)contentView {
   var bounds = [contentView bounds];
-  var scrollViewFrame = CGRectMake(CGRectGetMinX(bounds)+75,
-				   CGRectGetMinY(bounds)+100,
-				   CGRectGetWidth(bounds)-150,
-				   CGRectGetHeight(bounds)-200);
-  imageResultsView = [[WLImageResultsView alloc] initWithFrame:scrollViewFrame];    
-  [imageResultsView setAutoresizingMask: CPViewHeightSizable | CPViewWidthSizable];
-  [imageResultsView setAppController:self];
-  [contentView addSubview:imageResultsView];
+  var frame = CGRectMake(CGRectGetMinX(bounds)+75,
+			 CGRectGetMinY(bounds)+100,
+			 CGRectGetWidth(bounds)-150,
+			 CGRectGetHeight(bounds)-200);
+  tabView = [[CPTabView alloc] initWithFrame:frame];
+  [tabView setAutoresizingMask: CPViewHeightSizable | CPViewWidthSizable];
+  [contentView addSubview:tabView];
 }
 
 @end
