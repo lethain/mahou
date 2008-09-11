@@ -69,9 +69,24 @@ import "WLScrollView.j"
 }
 
 -(void)_resultsUpdated {
-  // override.
+  [_collectionView setContent:[]];
+  [_collectionView setContent:_results];
 }
 
 -(void)_search {
   // perform search, update with _setResults method.
 }
+
+-(void)connection:(CPURLConnection)aConnection didReceiveData:(CPString)data {
+  [self _setResults:eval(data)];
+}
+- (void)connection:(CPURLConnection)aConnection didFailWithError:(CPString)error
+{
+    //alert("error: " + error);
+}
+
+-(void)connectionDidFinishLoading:(CPURLConnection)connection {
+  // finished
+}
+
+@end

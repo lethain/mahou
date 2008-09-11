@@ -3,6 +3,7 @@ import <Foundation/CPObject.j>
 import "WLTextField.j"
 import "WLResultsView.j"
 import "WLImageResultsView.j"
+import "WLWebResultsView.j"
 
 @implementation AppController : CPObject
 {
@@ -119,7 +120,7 @@ import "WLImageResultsView.j"
   imageSearchTabItem = [[CPTabViewItem alloc] initWithIdentifier:@"image"];
   newsSearchTabItem = [[CPTabViewItem alloc] initWithIdentifier:@"news"];
 
-  webView = [[WLResultsView alloc] initWithFrame:frame];
+  webView = [[WLWebResultsView alloc] initWithFrame:frame];
   imageView = [[WLImageResultsView alloc] initWithFrame:frame];
   newsView = [[WLResultsView alloc] initWithFrame:frame];
 
@@ -135,7 +136,7 @@ import "WLImageResultsView.j"
   [tabView addTabViewItem:imageSearchTabItem];
   [tabView addTabViewItem:newsSearchTabItem];
 
-  [tabView selectTabViewItem:imageSearchTabItem];
+  //[tabView selectTabViewItem:imageSearchTabItem];
   [tabView setDelegate:self];
 }
 

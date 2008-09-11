@@ -36,6 +36,15 @@ class ImageSearchHandler(webapp.RequestHandler):
     images = db.create(data=data)
     serialized = simplejson.dumps(images.rows)
     self.response.out.write(serialized)
+
+class WebSearchHandler(webapp.RequestHandler):
+  def get(self):
+    query = console.strfix(self.request.get("query"))
+    offset = int(console.strfix(self.request.get("offset")))
+    data = ysearch.search(query,count=20,start=offset);
+    images = db.create(data=data)
+    serialized = simplejson.dumps(images.rows)
+    self.response.out.write(serialized)
     
 class RootHandler(webapp.RequestHandler):
 
@@ -47,6 +56,7 @@ def main():
   logging.getLogger().setLevel(logging.DEBUG)
   application = webapp.WSGIApplication([('/', RootHandler),
                                         ('/search/images', ImageSearchHandler),
+                                        ('/search/web', WebSearchHandler),
                                         ],
                                        
                                        debug=True)
