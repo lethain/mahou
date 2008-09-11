@@ -6,6 +6,14 @@ import <AppKit/CPTextField.j>
   CPString placeholderString;
 }
 
+-(CPString) stringValue {
+  var s = [super stringValue];
+  if ([s caseInsensitiveCompare:placeholderString]==0) {
+    return @"";
+  }
+  return s;
+}
+
 -(BOOL)becomeFirstResponder {
   if ([[self stringValue] caseInsensitiveCompare:[self placeholderString]]==0) {
     [self setStringValue:@""];
