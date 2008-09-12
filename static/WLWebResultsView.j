@@ -78,10 +78,6 @@ import "WLHTMLTextField.j"
   var abstract = [self makeLabelWith:dict.abstract at:frame];
   [abstract setLineBreakMode:CPLineBreakByWordWrapping];
   [webView addSubview:abstract];
-  
-  
-  }
-
 }
 
 -(CPTextField)makeLabelWith: (CPString)aString at: (CPRect)aFrame {

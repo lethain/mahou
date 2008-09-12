@@ -78,5 +78,3 @@ import "WLImageDisplayView.j"
 }
 
 @end
-
-
