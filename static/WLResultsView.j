@@ -11,6 +11,16 @@ import "WLScrollView.j"
 
 -(id)initWithFrame:aFrame {
   self = [super initWithFrame:aFrame];
+  [self createCollectionView];
+  [self setAutohidesScrollers:YES];
+  return self;
+}
+
+-(void)createCollectionView {
+  var bounds = [self bounds];
+  var aFrame = CPRectMake(0,0,
+		      CGRectGetWidth(bounds)-20,CGRectGetHeight(bounds));
+  
   _collectionView = [[CPCollectionView alloc] initWithFrame:aFrame];
   [_collectionView setDelegate:self];
   [_collectionView setItemPrototype:[self _itemPrototype]];
@@ -18,8 +28,6 @@ import "WLScrollView.j"
   [_collectionView setMaxItemSize:[self _maxItemSize]];
   [_collectionView setAutoresizingMask: CPViewWidthSizable];
   [self setDocumentView:_collectionView];
-  [self setAutohidesScrollers:YES];
-  return self;
 }
 
 -(CPSize)_minItemSize {
@@ -70,6 +78,7 @@ import "WLScrollView.j"
 
 -(void)_resultsUpdated {
   [_collectionView setContent:[]];
+  //[self createCollectionView];
   [_collectionView setContent:_results];
 }
 

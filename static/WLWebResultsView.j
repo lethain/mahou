@@ -73,7 +73,7 @@ import "WLHTMLTextField.j"
     [link setTextColor:[CPColor blueColor]];
     [webView addSubview:link];
 
-    frame = CGRectMake(0,50,CPRectGetWidth(bounds)-10,75);
+    frame = CGRectMake(5,50,CPRectGetWidth(bounds)-10,75);
     var abstract = [self makeLabelWith:dict.abstract at:frame];
     [abstract setLineBreakMode:CPLineBreakByWordWrapping];
     [webView addSubview:abstract];
