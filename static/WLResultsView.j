@@ -60,6 +60,7 @@ import "WLScrollView.j"
 }
 
 -(void)_clearResults {
+  [self createCollectionView];
   _results = [[CPArray alloc] init];
 }
 
