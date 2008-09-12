@@ -75,6 +75,7 @@ import "WLHTMLTextField.j"
   var field = [[WLHTMLTextField alloc] initWithFrame:aFrame];
   [field setFont:[CPFont boldSystemFontOfSize:12.0]];
   [field setStringValue:aString];
+  [field setSelectable:YES];
   [field setAutoresizingMask: CPViewWidthSizable];
   return field;
 }
@@ -82,6 +83,7 @@ import "WLHTMLTextField.j"
 -(CPTextField)makeURLLabelWith: (CPString)aString andUrl: (CPString)aURL at: (CPRect)aFrame {
   var field = [[WLURLLabel alloc] initWithFrame:aFrame];
   [field setUrl:aURL];
+  [field setSelectable:YES];
   [field setFont:[CPFont boldSystemFontOfSize:12.0]];
   [field setStringValue:aString];
   [field setAutoresizingMask: CPViewWidthSizable];

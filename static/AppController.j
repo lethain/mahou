@@ -5,6 +5,7 @@ import "WLResultsView.j"
 import "WLImageResultsView.j"
 import "WLWebResultsView.j"
 import "WLNewsResultsView.j"
+import "WLURLLabel.j"
 
 @implementation AppController : CPObject
 {
@@ -17,6 +18,7 @@ import "WLNewsResultsView.j"
   CPView webView;
   CPView imageView;
   CPView newsView;
+  CPWindow aboutWindow;
 }
 
 - (void)applicationDidFinishLaunching:(CPNotification)aNotification
@@ -29,7 +31,9 @@ import "WLNewsResultsView.j"
   [self setupSearchFieldAndButton:contentView];
   [self setupTabView:contentView];
   [theWindow orderFront:self];
-  //[CPMenu setMenuBarVisible:YES];
+  [self setupMainMenu];
+  [CPMenu setMenuBarVisible:YES];
+
 }
 
 -(void)search: (id)sender {
@@ -42,6 +46,103 @@ import "WLNewsResultsView.j"
   if ([[searchField stringValue] length] > 0) {
     [self search:self];
   }
+}
+
+-(void)setupMainMenu {
+  var m = [[CPMenu alloc] initWithTitle:@"MainMenu"];
+  [[CPApplication sharedApplication] setMainMenu:m];
+  
+
+  // Web Menu
+  var webMenuItem = [[CPMenuItem alloc] initWithTitle:@"Web" action:@selector(doNothing:) keyEquivalent:@"W"];
+  [m addItem:webMenuItem];
+
+
+  var imageMenuItem = [[CPMenuItem alloc] initWithTitle:@"Image" action:@selector(doNothing:) keyEquivalent:@"I"];
+  [m addItem:imageMenuItem];
+
+
+  var newsMenuItem = [[CPMenuItem alloc] initWithTitle:@"News" action:@selector(doNothing:) keyEquivalent:@"N"];
+  [m addItem:newsMenuItem];
+
+
+  [m addItem:[CPMenuItem separatorItem]];
+  var aboutMenuItem = [[CPMenuItem alloc] initWithTitle:@"About" action:@selector(aboutWindow:) keyEquivalent:@"A"];
+        
+  [m addItem:aboutMenuItem];
+
+  
+}
+
+-(void)doNothing:(id)sender {
+  alert("blah");
+}
+
+-(void)aboutWindow:(id)sender {
+  
+
+  var mainWindow = [[CPApplication sharedApplication] mainWindow];
+  var bounds = [mainWindow bounds];
+
+  var frame = CGRectMake(150,150,300,200);
+  var window = [[CPWindow alloc] initWithContentRect:frame styleMask:CPClosableWindowMask|CPTitledWindowMask|CPHUDBackgroundWindowMask];
+  [window setTitle:@"About Mahou"];
+  
+
+  var contentView = [window contentView];
+  
+  
+  var titleLabel = [self makeURLLabelWith:@"Will Larson (http://lethain.com/)" andUrl:@"http://lethain.com/" at:CPRectMake(0,0,300,30)];
+  [titleLabel setTextColor:[CPColor lightGrayColor]];
+  [titleLabel setFont:[CPFont boldSystemFontOfSize:16.0]];
+  [titleLabel setAlignment:CPCenterTextAlignment];
+  [contentView addSubview:titleLabel];
+
+  var uLabel = [self makeLabelWith:@"Made using"  at:CPRectMake(0,30,300,30)];
+  [uLabel setTextColor:[CPColor whiteColor]];
+  [uLabel setFont:[CPFont boldSystemFontOfSize:16.0]];
+  [uLabel setAlignment:CPCenterTextAlignment];
+  [contentView addSubview:uLabel];
+
+
+  var cLabel = [self makeURLLabelWith:@"Cappuccino" andUrl:@"http://cappuccino.org/" at:CPRectMake(0,60,300,30)];
+  [cLabel setTextColor:[CPColor blueColor]];
+  [cLabel setFont:[CPFont boldSystemFontOfSize:16.0]];
+  [cLabel setAlignment:CPCenterTextAlignment];
+  [contentView addSubview:cLabel];
+
+  var yLabel = [self makeURLLabelWith:@"Yahoo! BOSS" andUrl:@"http://developer.yahoo.com/search/boss/" at:CPRectMake(0,90,300,30)];
+  [yLabel setTextColor:[CPColor blueColor]];
+  [yLabel setFont:[CPFont boldSystemFontOfSize:16.0]];
+  [yLabel setAlignment:CPCenterTextAlignment];
+  [contentView addSubview:yLabel];
+
+  var gLabel = [self makeURLLabelWith:@"Google App Engine" andUrl:@"http://code.google.com/appengine/" at:CPRectMake(0,120,300,30)];
+  [gLabel setTextColor:[CPColor blueColor]];
+  [gLabel setFont:[CPFont boldSystemFontOfSize:16.0]];
+  [gLabel setAlignment:CPCenterTextAlignment];
+  [contentView addSubview:gLabel];
+      
+
+  [window orderFront:self];
+
+}
+
+-(CPTextField)makeLabelWith: (CPString)aString at: (CPRect)aFrame {
+  var field = [[WLHTMLTextField alloc] initWithFrame:aFrame];
+  [field setFont:[CPFont boldSystemFontOfSize:12.0]];
+  [field setStringValue:aString];
+  [field setAutoresizingMask: CPViewWidthSizable];
+  return field;
+}
+
+-(CPTextField)makeURLLabelWith: (CPString)aString andUrl: (CPString)aURL at: (CPRect)aFrame {
+  var field = [[WLURLLabel alloc] initWithFrame:aFrame];
+  [field setUrl:aURL];
+  [field setFont:[CPFont boldSystemFontOfSize:12.0]];
+  [field setStringValue:aString];
+  [field setAutoresizingMask: CPViewWidthSizable];
+  return field;
 }
 
 
