@@ -22,7 +22,7 @@ import "WLWebResultsView.j"
 }
 
 -(void)_search {
-  var query = "/search/news?query="+encodeURIComponent(_searchString)+"&offset="+_offset;
+  var query = "/search/news?query="+encodeURIComponent(_searchString)+"&offset="+_offset+"&count="+_count;
   var request = [CPURLRequest requestWithURL:query];
   var connection = [CPURLConnection connectionWithRequest:request delegate:self];
   [connection start];

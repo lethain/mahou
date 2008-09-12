@@ -36,7 +36,7 @@ import "WLHTMLTextField.j"
 }
 
 -(void)_search {
-  var query = "/search/web?query="+encodeURIComponent(_searchString)+"&offset="+_offset+"&includeDelicious="+[self includeDelicious];
+  var query = "/search/web?query="+encodeURIComponent(_searchString)+"&offset="+_offset+"&count="+_count+"&includeDelicious="+[self includeDelicious];
   var request = [CPURLRequest requestWithURL:query];
   var connection = [CPURLConnection connectionWithRequest:request delegate:self];
   [connection start];

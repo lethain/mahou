@@ -19,7 +19,7 @@ import "WLImageDisplayView.j"
 }
 
 -(void)_search {
-  var query = "/search/images?query="+encodeURIComponent(_searchString)+"&offset="+_offset;
+  var query = "/search/images?query="+encodeURIComponent(_searchString)+"&offset="+_offset+"&count="+[self count];
   var request = [CPURLRequest requestWithURL:query];
   var connection = [CPURLConnection connectionWithRequest:request delegate:self];
   [connection start];

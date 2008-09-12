@@ -20,6 +20,9 @@ import "WLURLLabel.j"
   CPView newsView;
   CPWindow aboutWindow;
   CPMenuItem _toggleDelicious;
+  CPMenuItem _tenResults;
+  CPMenuItem _twentyResults;
+  CPMenuItem _fiftyResults;
 }
 
 - (void)applicationDidFinishLaunching:(CPNotification)aNotification
@@ -54,9 +57,21 @@ import "WLURLLabel.j"
   var m = [[CPMenu alloc] initWithTitle:@"MainMenu"];
   [[CPApplication sharedApplication] setMainMenu:m];
   
+  // Search Menu
+  var searchMenuItem = [[CPMenuItem alloc] initWithTitle:@"Search" action:@selector(doNothing:) keyEquivalent:@""];
+  var searchMenu = [[CPMenu alloc] initWithTitle:@"Search"];
+  _tenResults = [[CPMenuItem alloc] initWithTitle:@"10 results" action:@selector(selectTenResults:) keyEquivalent:@""];
+  _twentyResults = [[CPMenuItem alloc] initWithTitle:@"20 results" action:@selector(selectTwentyResults:) keyEquivalent:@""];
+  _fiftyResults = [[CPMenuItem alloc] initWithTitle:@"50 results" action:@selector(selectFiftyResults:) keyEquivalent:@""];
+  [searchMenu addItem:_tenResults];
+  [searchMenu addItem:_twentyResults];
+  [searchMenu addItem:_fiftyResults];
+  [searchMenuItem setSubmenu:searchMenu];
+
+
 
   // Web Menu
-  var webMenuItem = [[CPMenuItem alloc] initWithTitle:@"Web" action:@selector(doNothing:) keyEquivalent:@"W"];
+  var webMenuItem = [[CPMenuItem alloc] initWithTitle:@"Web" action:@selector(doNothing:) keyEquivalent:@""];
   var webMenu = [[CPMenu alloc] initWithTitle:@"Web"];
   _toggleDelicious = [[CPMenuItem alloc] initWithTitle:@"include Delicious" action:@selector(toggleDelicious:) keyEquivalent:@""];
 
@@ -64,7 +79,6 @@ import "WLURLLabel.j"
   [webMenuItem setSubmenu:webMenu];
 
 
-  [m addItem:webMenuItem];
 
 
   /*
@@ -76,8 +90,15 @@ import "WLURLLabel.j"
   [m addItem:newsMenuItem];
   */
 
-  [m addItem:[CPMenuItem separatorItem]];
+
   var aboutMenuItem = [[CPMenuItem alloc] initWithTitle:@"About" action:@selector(toggleAboutWindow:) keyEquivalent:@"A"];
+
+  // Arrange menu order
+  [m addItem:searchMenuItem];
+  [m addItem:webMenuItem];
+
+  [m addItem:[CPMenuItem separatorItem]];
+
   [m addItem:aboutMenuItem];
 }
 
@@ -102,6 +123,37 @@ import "WLURLLabel.j"
   else {
     [aboutWindow orderFront:self];
   }
+}
+
+-(void)selectTenResults: (id)sender {
+  [_tenResults setState:CPOnState];
+  [_twentyResults setState:CPOffState];
+  [_fiftyResults setState:CPOffState];
+  
+  [webView setCount:10];
+  [imageView setCount:10];
+  [newsView setCount:10];
+
+}
+-(void)selectTwentyResults: (id)sender {
+  [_tenResults setState:CPOffState];
+  [_twentyResults setState:CPOnState];
+  [_fiftyResults setState:CPOffState];
+  
+  [webView setCount:20];
+  [imageView setCount:20];
+  [newsView setCount:20];
+
+}
+-(void)selectFiftyResults: (id)sender {
+  [_tenResults setState:CPOffState];
+  [_twentyResults setState:CPOffState];
+  [_fiftyResults setState:CPOnState];
+  
+  [webView setCount:50];
+  [imageView setCount:50];
+  [newsView setCount:50];
+
 }
 
 -(void)setupAboutWindow {

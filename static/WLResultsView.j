@@ -6,6 +6,8 @@ import "WLScrollView.j"
   CPString _searchString;
   CPCollectionView _collectionView;
   int _offset;
+  int _count;
+  BOOL _countChanged;
   BOOL _recieved;
 }
 
@@ -13,6 +15,8 @@ import "WLScrollView.j"
   self = [super initWithFrame:aFrame];
   [self createCollectionView];
   [self setAutohidesScrollers:YES];
+  _count = 20;
+  _countChanged = NO;
   return self;
 }
 
@@ -43,10 +47,11 @@ import "WLScrollView.j"
 }
 
 -(void)searchFor: (CPString)searchString {
-  if ([_searchString caseInsensitiveCompare:searchString]==0) {
+  if (!_countChanged && [_searchString caseInsensitiveCompare:searchString]==0) {
     // Don't re-search already search results.
     return;
   }
+  else _countChanged = NO;
 
   [self _clearResults];
   _searchString = searchString;
@@ -97,6 +102,15 @@ import "WLScrollView.j"
 
 -(void)connectionDidFinishLoading:(CPURLConnection)connection {
   // finished
+}
+
+-(void)setCount: (int)anInt {
+  _countChanged = YES;
+  _count = anInt;
+}
+
+-(void)count {
+  return _count;
 }
 
 @end

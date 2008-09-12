@@ -31,8 +31,9 @@ from django.utils import simplejson
 class ImageSearchHandler(webapp.RequestHandler):
   def get(self):
     query = console.strfix(self.request.get("query"))
+    count = int(console.strfix(self.request.get("count")))
     offset = int(console.strfix(self.request.get("offset")))
-    data = ysearch.search(query,vertical="images",count=20,start=offset);
+    data = ysearch.search(query,vertical="images",count=count,start=offset);
     images = db.create(data=data)
     serialized = simplejson.dumps(images.rows)
     self.response.out.write(serialized)
@@ -40,8 +41,9 @@ class ImageSearchHandler(webapp.RequestHandler):
 class NewsSearchHandler(webapp.RequestHandler):
   def get(self):
     query = console.strfix(self.request.get("query"))
+    count = int(console.strfix(self.request.get("count")))
     offset = int(console.strfix(self.request.get("offset")))
-    data = ysearch.search(query,vertical="news",count=20,start=offset);
+    data = ysearch.search(query,vertical="news",count=count,start=offset);
     images = db.create(data=data)
     serialized = simplejson.dumps(images.rows)
     self.response.out.write(serialized)
@@ -55,10 +57,11 @@ class WebSearchHandler(webapp.RequestHandler):
 
   def get(self):
     query = console.strfix(self.request.get("query"))
+    count = int(console.strfix(self.request.get("count")))
     offset = int(console.strfix(self.request.get("offset")))
     includeDelicious = console.strfix(self.request.get("includeDelicious"))      
 
-    search_results = ysearch.search(query,count=20,start=offset);
+    search_results = ysearch.search(query,count=count,start=offset);
     web = db.create(data=search_results)
     if len(includeDelicious) == 4:
       dl = db.select(udfs.unnest_value, name="dl", url=u"http://feeds.delicious.com/rss/popular/%s" % query)
