@@ -30,6 +30,7 @@ import "WLURLLabel.j"
 
   [self setupSearchFieldAndButton:contentView];
   [self setupTabView:contentView];
+  [self setupAboutWindow];
   [theWindow orderFront:self];
   [self setupMainMenu];
   [CPMenu setMenuBarVisible:YES];
@@ -67,7 +68,7 @@ import "WLURLLabel.j"
 
 
   [m addItem:[CPMenuItem separatorItem]];
-  var aboutMenuItem = [[CPMenuItem alloc] initWithTitle:@"About" action:@selector(aboutWindow:) keyEquivalent:@"A"];
+  var aboutMenuItem = [[CPMenuItem alloc] initWithTitle:@"About" action:@selector(toggleAboutWindow:) keyEquivalent:@"A"];
         
   [m addItem:aboutMenuItem];
 
@@ -78,18 +79,27 @@ import "WLURLLabel.j"
   alert("blah");
 }
 
--(void)aboutWindow:(id)sender {
+-(void)toggleAboutWindow:(id)sender {
+  if ([aboutWindow isVisible]==YES) {
+    [aboutWindow orderOut:self];
+  }
+  else {
+    [aboutWindow orderFront:self];
+  }
+}
+
+-(void)setupAboutWindow {
   
 
-  var mainWindow = [[CPApplication sharedApplication] mainWindow];
-  var bounds = [mainWindow bounds];
+  //var mainWindow = [[CPApplication sharedApplication] mainWindow];
+  //var bounds = [mainWindow bounds];
 
   var frame = CGRectMake(150,150,300,200);
-  var window = [[CPWindow alloc] initWithContentRect:frame styleMask:CPClosableWindowMask|CPTitledWindowMask|CPHUDBackgroundWindowMask];
-  [window setTitle:@"About Mahou"];
+  var aboutWindow = [[CPWindow alloc] initWithContentRect:frame styleMask:CPClosableWindowMask|CPTitledWindowMask|CPHUDBackgroundWindowMask];
+  [aboutWindow setTitle:@"About Mahou"];
   
 
-  var contentView = [window contentView];
+  var contentView = [aboutWindow contentView];
   
   
   var titleLabel = [self makeURLLabelWith:@"Will Larson (http://lethain.com/)" andUrl:@"http://lethain.com/" at:CPRectMake(0,0,300,30)];
@@ -122,10 +132,6 @@ import "WLURLLabel.j"
   [gLabel setFont:[CPFont boldSystemFontOfSize:16.0]];
   [gLabel setAlignment:CPCenterTextAlignment];
   [contentView addSubview:gLabel];
-      
-
-  [window orderFront:self];
-
 }
 
 -(CPTextField)makeLabelWith: (CPString)aString at: (CPRect)aFrame {
