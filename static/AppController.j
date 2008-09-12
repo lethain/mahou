@@ -74,7 +74,7 @@ import "WLURLLabel.j"
   // Web Menu
   var webMenuItem = [[CPMenuItem alloc] initWithTitle:@"Web" action:@selector(doNothing:) keyEquivalent:@""];
   var webMenu = [[CPMenu alloc] initWithTitle:@"Web"];
-  _toggleDelicious = [[CPMenuItem alloc] initWithTitle:@"filter by Delicious" action:@selector(toggleDelicious:) keyEquivalent:@""];
+  _toggleDelicious = [[CPMenuItem alloc] initWithTitle:@"filter via Delicious" action:@selector(toggleDelicious:) keyEquivalent:@""];
 
   [webMenu addItem:_toggleDelicious];
   [webMenuItem setSubmenu:webMenu];
