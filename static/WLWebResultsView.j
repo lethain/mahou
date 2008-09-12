@@ -14,6 +14,7 @@ import "WLHTMLTextField.j"
 }
 
 -(void)setIncludeDelicious: (BOOL)aBool {
+  _countChanged = YES;
   _includeDelicious = aBool;
 }
 
