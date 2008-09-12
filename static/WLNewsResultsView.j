@@ -26,5 +26,6 @@ import "WLWebResultsView.j"
   var request = [CPURLRequest requestWithURL:query];
   var connection = [CPURLConnection connectionWithRequest:request delegate:self];
   [connection start];
+  [super _search];
 }
 @end

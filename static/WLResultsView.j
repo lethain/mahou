@@ -57,7 +57,6 @@ import "WLScrollView.j"
   _searchString = searchString;
   _offset = 0;
   [self _search];
-  _offset = _offset + [self _offsetIncrement];
 }
 
 -(int)_offsetIncrement {
@@ -89,7 +88,7 @@ import "WLScrollView.j"
 }
 
 -(void)_search {
-  // perform search, update with _setResults method.
+  _offset = _offset + [self _offsetIncrement];
 }
 
 -(void)connection:(CPURLConnection)aConnection didReceiveData:(CPString)data {
