@@ -105,4 +105,13 @@ import "WLHTMLTextField.j"
   return field;
 }
 
+-(void)setSelected:(BOOL)flag {
+  if (flag) {
+    [webView setBackgroundColor:[CPColor lightGrayColor]];
+  }
+  else {
+    [webView setBackgroundColor:[CPColor whiteColor]];
+  }
+}
+
 @end
