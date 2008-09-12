@@ -4,6 +4,21 @@ import "WLURLLabel.j"
 import "WLHTMLTextField.j"
 
 @implementation WLWebResultsView : WLResultsView {  
+  BOOL _includeDelcious;
+}
+
+-(id)initWithFrame: (CPRect)aFrame {
+  self = [super initWithFrame:aFrame];
+  _includeDelicious = NO;
+  return self;
+}
+
+-(void)setIncludeDelicious: (BOOL)aBool {
+  _includeDelicious = aBool;
+}
+
+-(BOOL)includeDelicious {
+  return _includeDelicious;
 }
 
 -(CPSize)_minItemSize {
@@ -21,7 +36,7 @@ import "WLHTMLTextField.j"
 }
 
 -(void)_search {
-  var query = "/search/web?query="+encodeURIComponent(_searchString)+"&offset="+_offset;
+  var query = "/search/web?query="+encodeURIComponent(_searchString)+"&offset="+_offset+"&includeDelicious="+[self includeDelicious];
   var request = [CPURLRequest requestWithURL:query];
   var connection = [CPURLConnection connectionWithRequest:request delegate:self];
   [connection start];

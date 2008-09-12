@@ -19,6 +19,7 @@ import "WLURLLabel.j"
   CPView imageView;
   CPView newsView;
   CPWindow aboutWindow;
+  CPMenuItem _toggleDelicious;
 }
 
 - (void)applicationDidFinishLaunching:(CPNotification)aNotification
@@ -56,28 +57,43 @@ import "WLURLLabel.j"
 
   // Web Menu
   var webMenuItem = [[CPMenuItem alloc] initWithTitle:@"Web" action:@selector(doNothing:) keyEquivalent:@"W"];
+  var webMenu = [[CPMenu alloc] initWithTitle:@"Web"];
+  _toggleDelicious = [[CPMenuItem alloc] initWithTitle:@"include Delicious" action:@selector(toggleDelicious:) keyEquivalent:@""];
+
+  [webMenu addItem:_toggleDelicious];
+  [webMenuItem setSubmenu:webMenu];
+
+
   [m addItem:webMenuItem];
 
 
+  /*
   var imageMenuItem = [[CPMenuItem alloc] initWithTitle:@"Image" action:@selector(doNothing:) keyEquivalent:@"I"];
   [m addItem:imageMenuItem];
 
 
   var newsMenuItem = [[CPMenuItem alloc] initWithTitle:@"News" action:@selector(doNothing:) keyEquivalent:@"N"];
   [m addItem:newsMenuItem];
-
+  */
 
   [m addItem:[CPMenuItem separatorItem]];
   var aboutMenuItem = [[CPMenuItem alloc] initWithTitle:@"About" action:@selector(toggleAboutWindow:) keyEquivalent:@"A"];
-        
   [m addItem:aboutMenuItem];
-
-  
 }
 
--(void)doNothing:(id)sender {
-  alert("blah");
+-(void)toggleDelicious:(id)sender {
+  if ([_toggleDelicious state] == CPOnState) {
+    [_toggleDelicious setState:CPOffState];
+    [webView setIncludeDelicious:NO];
+  }
+  else {
+    [_toggleDelicious setState:CPOnState];
+    [webView setIncludeDelicious:YES];
+  }
 }
+
+
+-(void)doNothing:(id)sender {}
 
 -(void)toggleAboutWindow:(id)sender {
   if ([aboutWindow isVisible]==YES) {
