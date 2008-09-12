@@ -62,6 +62,7 @@ import "WLURLLabel.j"
   var searchMenu = [[CPMenu alloc] initWithTitle:@"Search"];
   _tenResults = [[CPMenuItem alloc] initWithTitle:@"10 results" action:@selector(selectTenResults:) keyEquivalent:@""];
   _twentyResults = [[CPMenuItem alloc] initWithTitle:@"20 results" action:@selector(selectTwentyResults:) keyEquivalent:@""];
+  [_twentyResults setState:CPOnState];
   _fiftyResults = [[CPMenuItem alloc] initWithTitle:@"50 results" action:@selector(selectFiftyResults:) keyEquivalent:@""];
   [searchMenu addItem:_tenResults];
   [searchMenu addItem:_twentyResults];
@@ -73,7 +74,7 @@ import "WLURLLabel.j"
   // Web Menu
   var webMenuItem = [[CPMenuItem alloc] initWithTitle:@"Web" action:@selector(doNothing:) keyEquivalent:@""];
   var webMenu = [[CPMenu alloc] initWithTitle:@"Web"];
-  _toggleDelicious = [[CPMenuItem alloc] initWithTitle:@"include Delicious" action:@selector(toggleDelicious:) keyEquivalent:@""];
+  _toggleDelicious = [[CPMenuItem alloc] initWithTitle:@"filter by Delicious" action:@selector(toggleDelicious:) keyEquivalent:@""];
 
   [webMenu addItem:_toggleDelicious];
   [webMenuItem setSubmenu:webMenu];
