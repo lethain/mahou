@@ -1,5 +1,6 @@
 import <Foundation/CPObject.j>
 import "WLResultsView.j"
+import "WLImageDisplayView.j"
 
 @implementation WLImageResultsView : WLResultsView {
   
@@ -59,7 +60,6 @@ import "WLResultsView.j"
   [imageView setImage: anImage];
 }
 
-/*
 -(void)setSelected:(BOOL)flag {
   if (!flag) return;
   
@@ -75,7 +75,8 @@ import "WLResultsView.j"
   var aView = [[WLImageDisplayView alloc] initWithFrame:CGRectMake(0,0,300,300) data:dict image:image];
   [[window contentView] addSubview:aView];
   [window orderFront:self];
-*/
 }
+
+@end
 
 
