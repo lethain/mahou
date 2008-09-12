@@ -6,7 +6,7 @@
 
 __author__ = "Vik Singh (viksi@yahoo-inc.com)"
 
-from util.typechecks import is_dict
+from yos.util.typechecks import is_dict
 
 def unnest_value(row):
   """
