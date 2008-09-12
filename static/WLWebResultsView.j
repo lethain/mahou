@@ -52,37 +52,34 @@ import "WLHTMLTextField.j"
 -(void)setRepresentedObject: (CPDictionary)aDict {
   dict = aDict;
 
-  if (!webView) {
-    webView = [[CPView alloc] initWithFrame:CGRectMake(0,0,300,150)];
-    [webView setBackgroundColor:[CPColor whiteColor]];
-    [webView setAutoresizingMask: CPViewWidthSizable];
+  webView = [[CPView alloc] initWithFrame:CGRectMake(0,0,300,150)];
+  [webView setBackgroundColor:[CPColor whiteColor]];
+  [webView setAutoresizingMask: CPViewWidthSizable];
+  [self setView:webView];
     
-    var bounds = [webView bounds];
-    var frame = CGRectMake(5,0,CPRectGetMaxX(bounds)-5,25);
-    var titleLabel = [self makeLabelWith:dict.title at:frame];
-    [titleLabel setFont:[CPFont boldSystemFontOfSize:20.0]];
-    [titleLabel setAlignment:CPLeftTextAlignment];
-    [webView addSubview:titleLabel];
-    
-    frame = CGRectMake(CPRectGetMaxX(bounds)-50,25,50,25);
-    var date = [self makeLabelWith:dict.date at:frame];
-    [date setAlignment:CPRightTextAlignment];
-    [webView addSubview:date];
-
-    frame = CGRectMake(5,25,CPRectGetWidth(bounds)-75,25);
-    var link = [self makeURLLabelWith:dict.url andUrl:dict.clickurl at:frame];
-    [link setTextColor:[CPColor blueColor]];
-    [webView addSubview:link];
-
-    frame = CGRectMake(5,50,CPRectGetWidth(bounds)-10,75);
-    var abstract = [self makeLabelWith:dict.abstract at:frame];
-    [abstract setLineBreakMode:CPLineBreakByWordWrapping];
-    [webView addSubview:abstract];
-
-    //[webView addSubiew:[self makeURLLabel]];
-    //[webView addSubview:[self makeAbstractLabel]];
-
-    [self setView:webView];
+  var bounds = [webView bounds];
+  var frame = CGRectMake(5,0,CPRectGetMaxX(bounds)-5,25);
+  var titleLabel = [self makeLabelWith:dict.title at:frame];
+  [titleLabel setFont:[CPFont boldSystemFontOfSize:20.0]];
+  [titleLabel setAlignment:CPLeftTextAlignment];
+  [webView addSubview:titleLabel];
+  
+  frame = CGRectMake(CPRectGetMaxX(bounds)-50,25,50,25);
+  var date = [self makeLabelWith:dict.date at:frame];
+  [date setAlignment:CPRightTextAlignment];
+  [webView addSubview:date];
+  
+  frame = CGRectMake(5,25,CPRectGetWidth(bounds)-75,25);
+  var link = [self makeURLLabelWith:dict.url andUrl:dict.clickurl at:frame];
+  [link setTextColor:[CPColor blueColor]];
+  [webView addSubview:link];
+  
+  frame = CGRectMake(5,50,CPRectGetWidth(bounds)-10,75);
+  var abstract = [self makeLabelWith:dict.abstract at:frame];
+  [abstract setLineBreakMode:CPLineBreakByWordWrapping];
+  [webView addSubview:abstract];
+  
+  
   }
 
 }
